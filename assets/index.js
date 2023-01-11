@@ -1,219 +1,79 @@
-/*
-GIVEN I am taking a code quiz
-WHEN I click the start button
-THEN a timer starts and I am presented with a question
-WHEN I answer a question
-THEN I am presented with another question
-WHEN I answer a question incorrectly
-THEN time is subtracted from the clock
-WHEN all questions are answered or the timer reaches 0
-THEN the game is over
-WHEN the game is over
-THEN I can save my initials and score
-*/
+//Selecting Start button
+const startButton = document.getElementById("start-button");
+//Selecting Timer
+const timer = document.getElementById("timer");
+//Selecting Quiz Form
+const quizForm = document.getElementById("quiz-form");
+//Selecting all the questions
+const questions = document.querySelectorAll(".question");
+//Selecting game over div
+const gameOver = document.getElementById("game-over");
+//Selecting initials input and score form
+const scoreForm = document.getElementById("score-form");
+const initialsInput = document.getElementById("initials");
 
-// Global variables
-var startButton = document.getElementById("start-btn");
-var nextButton = document.getElementById("next-btn");
-var questionContainerElement = document.getElementById("question-container");
-var questionElement = document.getElementById("question");
-var answerButtonsElement = document.getElementById("answer-buttons");
-var timerElement = document.getElementById("timer");
-var scoreElement = document.getElementById("score");
-var score = 0;
-var timer = 60;
-var timerInterval;
-var shuffledQuestions, currentQuestionIndex;
+let secondsLeft = 10; //change this to the amount of time you want the quiz to be
+let currentQuestion = 0; // Keeps track of the current question
+let score = 0; // Keeps track of the score
 
-// Start button event listener
-startButton.addEventListener("click", startGame);
-
-// Start game function
-function startGame() {
-    console.log("Started");
-    startButton.classList.add("hide");
-    shuffledQuestions = questions.sort(() => Math.random() - 0.5);
-    currentQuestionIndex = 0;
-    questionContainerElement.classList.remove("hide");
-    setNextQuestion();
-    timerInterval = setInterval(function () {
-        timer--;
-        timerElement.textContent = timer;
-        if (timer === 0) {
-        clearInterval(timerInterval);
-        endGame();
-        }
-    }, 1000);
-    }
-
-// Next button event listener
-nextButton.addEventListener("click", () => {
-    currentQuestionIndex++;
-    setNextQuestion();
-}
-);
-
-// Set next question function
-function setNextQuestion() {
-    resetState();
-    showQuestion(shuffledQuestions[currentQuestionIndex]);
+// function that updates the timer
+function updateTimer() {
+  timer.textContent = "Time: " + secondsLeft;
+  secondsLeft--;
+  if (secondsLeft < 0) {
+    endQuiz();
+  }
 }
 
-// Show question function
-function showQuestion(question) {
-    questionElement.innerText = question.question;
-    question.answers.forEach(answer => {
-        var button = document.createElement("button");
-        button.innerText = answer.text;
-        button.classList.add("btn");
-        if (answer.correct) {
-            button.dataset.correct = answer.correct;
-        }
-        button.addEventListener("click", selectAnswer);
-        answerButtonsElement.appendChild(button);
-    });
+//function that starts the quiz
+function startQuiz() {
+  setInterval(updateTimer, 1000);
+  startButton.style.display = "none";
+  quizForm.style.display = "block";
+  showCurrentQuestion();
 }
 
-// Reset state function
-function resetState() {
-    clearStatusClass(document.body);
-    nextButton.classList.add("hide");
-    while (answerButtonsElement.firstChild) {
-        answerButtonsElement.removeChild(answerButtonsElement.firstChild);
-    }
+// function that shows the current question
+function showCurrentQuestion() {
+  questions.forEach(function (question) {
+    question.style.display = "none";
+  });
+  questions[currentQuestion].style.display = "block";
 }
 
-// Select answer function
-function selectAnswer(e) {
-    var selectedButton = e.target;
-    var correct = selectedButton.dataset.correct;
-    setStatusClass(document.body, correct);
-    Array.from(answerButtonsElement.children).forEach(button => {
-        setStatusClass(button, button.dataset.correct);
-    });
-    if (shuffledQuestions.length > currentQuestionIndex + 1) {
-        nextButton.classList.remove("hide");
-    } else {
-        startButton.innerText = "Restart";
-        startButton.classList.remove("hide");
-        endGame();
-    }
+// function that handles when an answer is submitted
+function handleSubmit(event) {
+  event.preventDefault();
+  const selectedOption = event.target.elements["answer"];
+  const selectedValue = selectedOption.value;
+  if (selectedValue === questions[currentQuestion].correctAnswer) {
+    score++;
+  } else {
+    secondsLeft = secondsLeft - 5; // or any other amount of time you want to subtract
+  }
+  currentQuestion++;
+  if (currentQuestion === questions.length) {
+    endQuiz();
+  } else {
+    showCurrentQuestion();
+  }
 }
 
-// Set status class function
-function setStatusClass(element, correct) {
-    clearStatusClass(element);
-    if (correct) {
-        element.classList.add("correct");
-        score++;
-        scoreElement.textContent = score;
-    } else {
-        element.classList.add("wrong");
-        timer -= 10;
-    }
+// function that ends the quiz
+function endQuiz() {
+  clearInterval(updateTimer);
+  quizForm.style.display = "none";
+  gameOver.style.display = "block";
 }
 
-// Clear status class function
-function clearStatusClass(element) {
-    element.classList.remove("correct");
-    element.classList.remove("wrong");
+// function that saves the score
+function saveScore() {
+  const initials = initialsInput.value;
+  localStorage.setItem("initials", initials);
+  localStorage.setItem("score", score);
+  window.location.href = "leaderboard.html";
 }
 
-// End game function
-function endGame() {
-    clearInterval(timerInterval);
-    var finalScore = score;
-    var initials = prompt("Enter your initials");
-    localStorage.setItem("initials", initials);
-    localStorage.setItem("score", finalScore);
-    window.location.href = "highscores.html";
-}
-
-// Questions array
-var questions = [
-    {   question: "Commonly used data types DO NOT include:",
-        answers: [
-            { text: "strings", correct: false },
-            { text: "booleans", correct: false },
-            { text: "alerts", correct: true },
-            { text: "numbers", correct: false }
-        ]
-    },
-    {   question: "The condition in an if / else statement is enclosed within ____.",
-        answers: [
-            { text: "quotes", correct: false },
-            { text: "curly brackets", correct: false },
-            { text: "parentheses", correct: true },
-            { text: "square brackets", correct: false }
-        ]
-    },
-    {   question: "Arrays in JavaScript can be used to store ____.",
-        answers: [
-            { text: "numbers and strings", correct: false },
-            { text: "other arrays", correct: false },
-            { text: "booleans", correct: false },
-            { text: "all of the above", correct: true }
-        ]
-    },
-    {   question: "String values must be enclosed within ____ when being assigned to variables.",
-        answers: [
-            { text: "commas", correct: false },
-            { text: "curly brackets", correct: false },
-            { text: "quotes", correct: true },
-            { text: "parentheses", correct: false }
-        ]
-    },
-]
-
-// Path: assets/highscores.js
-/*
-GIVEN I am taking a code quiz
-WHEN I click the start button
-THEN a timer starts and I am presented with a question
-WHEN I answer a question
-THEN I am presented with another question
-WHEN I answer a question incorrectly
-THEN time is subtracted from the clock
-WHEN all questions are answered or the timer reaches 0
-THEN the game is over
-WHEN the game is over
-THEN I can save my initials and score
-*/
-
-// Global variables
-var initials = localStorage.getItem("initials");
-var score = localStorage.getItem("score");
-var highscores = document.getElementById("highscores");
-var highscoresList = document.getElementById("highscores-list");
-var clearButton = document.getElementById("clear-btn");
-
-// Clear button event listener
-clearButton.addEventListener("click", clearHighscores);
-
-// Clear highscores function
-function clearHighscores() {
-    localStorage.clear();
-    location.reload();
-}
-
-// Display highscores function
-function displayHighscores() {
-    var highscore = initials + " - " + score;
-    var li = document.createElement("li");
-    li.textContent = highscore;
-    highscoresList.appendChild(li);
-}
-
-// Display highscores
-displayHighscores();
-
-
-
-
-
-
-
-
-
-
-
+startButton.addEventListener("click", startQuiz);
+quizForm.addEventListener("submit", handleSubmit);
+scoreForm.addEventListener("submit", saveScore);
