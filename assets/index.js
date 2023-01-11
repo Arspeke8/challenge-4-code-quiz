@@ -165,6 +165,52 @@ var questions = [
     },
 ]
 
+// Path: assets/highscores.js
+/*
+GIVEN I am taking a code quiz
+WHEN I click the start button
+THEN a timer starts and I am presented with a question
+WHEN I answer a question
+THEN I am presented with another question
+WHEN I answer a question incorrectly
+THEN time is subtracted from the clock
+WHEN all questions are answered or the timer reaches 0
+THEN the game is over
+WHEN the game is over
+THEN I can save my initials and score
+*/
+
+// Global variables
+var initials = localStorage.getItem("initials");
+var score = localStorage.getItem("score");
+var highscores = document.getElementById("highscores");
+var highscoresList = document.getElementById("highscores-list");
+var clearButton = document.getElementById("clear-btn");
+
+// Clear button event listener
+clearButton.addEventListener("click", clearHighscores);
+
+// Clear highscores function
+function clearHighscores() {
+    localStorage.clear();
+    location.reload();
+}
+
+// Display highscores function
+function displayHighscores() {
+    var highscore = initials + " - " + score;
+    var li = document.createElement("li");
+    li.textContent = highscore;
+    highscoresList.appendChild(li);
+}
+
+// Display highscores
+displayHighscores();
+
+
+
+
+
 
 
 
