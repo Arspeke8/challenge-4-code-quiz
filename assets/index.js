@@ -65,6 +65,13 @@ function endQuiz() {
   quizForm.style.display = "none";
   gameOver.style.display = "block";
 }
+// add high score button
+const viewHighScores = document.getElementById("view-high-scores");
+viewHighScores.addEventListener("click", function() {
+   window.location.href = "leaderboard.html"; //redirect to leaderboard page 
+   // or open a modal dialog with javascript
+});
+
 
 // function that saves the score
 function saveScore() {
