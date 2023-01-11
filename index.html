@@ -10,24 +10,110 @@
     <button id="start-button">Start</button>
     <div id="timer"></div>
     <form id="quiz-form">
-      <div id="question-1" class="question">
-        <p>Question 1</p>
-        <label for="answer-1-1">
-          <input type="radio" name="answer-1" id="answer-1-1" value="1">
-          Answer 1
-        </label>
-        <label for="answer-1-2">
-          <input type="radio" name="answer-1" id="answer-1-2" value="2">
-          Answer 2
-        </label>
-        <label for="answer-1-3">
-          <input type="radio" name="answer-1" id="answer-1-3" value="3">
-          Answer 3
-        </label>
-        <label for="answer-1-4">
-          <input type="radio" name="answer-1" id="answer-1-4" value="4">
-          Answer 4
-        </label>
+        <div class="question">
+          <h2>Question 1</h2>
+          <p>What is the syntax for creating a variable in JavaScript?</p>
+          <label>
+            <input type="radio" name="answer" value="a" />
+            a) var x;
+          </label>
+          <label>
+            <input type="radio" name="answer" value="b" />
+            b) x = 3;
+          </label>
+          <label>
+            <input type="radio" name="answer" value="c" />
+            c) let x;
+          </label>
+          <label>
+            <input type="radio" name="answer" value="d" />
+            d) const x = 3;
+          </label>
+        </div>
+        <div class="question">
+          <h2>Question 2</h2>
+          <p>Which of the following is not a way to create a function in JavaScript?</p>
+          <label>
+            <input type="radio" name="answer" value="a" />
+            a) function myFunction() {}
+          </label>
+          <label>
+            <input type="radio" name="answer" value="b" />
+            b) myFunction = () => {}
+          </label>
+          <label>
+            <input type="radio" name="answer" value="c" />
+            c) var myFunction = new Function("","");
+          </label>
+          <label>
+            <input type="radio" name="answer" value="d" />
+            d) let myFunction = "Hello World";
+          </label>
+        </div>
+            
+            <div class="question">
+              <h2>Question 3</h2>
+              <p>Which of the following is the correct way to access the fourth element of an array in JavaScript?</p>
+              <label>
+                <input type="radio" name="answer" value="a" />
+                a) array[3]
+              </label>
+              <label>
+                <input type="radio" name="answer" value="b" />
+                b) array[4]
+              </label>
+              <label>
+                <input type="radio" name="answer" value="c" />
+                c) array[-1]
+              </label>
+              <label>
+                <input type="radio" name="answer" value="d" />
+                d) array.4
+              </label>
+            </div>
+            <div class="question">
+              <h2>Question 4</h2>
+              <p>What is the name of the method that can be used to remove the last element of an array in JavaScript?</p>
+              <label>
+                <input type="radio" name="answer" value="a" />
+                a) pop();
+              </label>
+              <label>
+                <input type="radio" name="answer" value="b" />
+                b) shift();
+              </label>
+              <label>
+                <input type="radio" name="answer" value="c" />
+                c) splice();
+              </label>
+              <label>
+                <input type="radio" name="answer" value="d" />
+                d) remove();
+              </label>
+            </div>
+            <div class="question">
+              <h2>Question 5</h2>
+              <p>What does the `typeof` operator return in JavaScript when used with a variable that has been set to `null`?</p>
+              <label>
+                <input type="radio" name="answer" value="a" />
+                a) "object"
+              </label>
+              <label>
+                <input type="radio" name="answer" value="b" />
+                b) "null"
+              </label>
+              <label>
+                <input type="radio" name="answer" value="c" />
+                c) "undefined"
+              </label>
+              <label>
+                <input type="radio" name="answer" value="d" />
+                d) "nullable"
+              </div>
+        
+        <input type="submit" value="Submit">
+      </form>
+      
       </div>
       <!-- additional questions go here -->
     </form>

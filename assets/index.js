@@ -12,7 +12,7 @@ const gameOver = document.getElementById("game-over");
 const scoreForm = document.getElementById("score-form");
 const initialsInput = document.getElementById("initials");
 
-let secondsLeft = 10; //change this to the amount of time you want the quiz to be
+let secondsLeft = 60; //change this to the amount of time you want the quiz to be
 let currentQuestion = 0; // Keeps track of the current question
 let score = 0; // Keeps track of the score
 
@@ -69,7 +69,7 @@ function endQuiz() {
 const viewHighScores = document.getElementById("view-high-scores");
 viewHighScores.addEventListener("click", function() {
    window.location.href = "leaderboard.html"; //redirect to leaderboard page 
-   // or open a modal dialog with javascript
+  
 });
 
 
